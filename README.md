@@ -1,3 +1,3 @@
-# Ireland EV charging prices map
+# Ireland (island-wide) EV charging prices map
 
-Standalone map of public EV chargers in Ireland with prices. Data: OpenStreetMap contributors, Open Charge Map, operator websites. Many prices are inferred and flagged on the map.
+Public EV chargers on the island of Ireland – Republic (€) and Northern Ireland (£) – with prices. Currencies are never converted or mixed. Data: OpenStreetMap contributors, Open Charge Map, operator websites. Inferred prices are flagged on the map.
