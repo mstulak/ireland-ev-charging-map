@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark"><title>Ireland EV Charging Prices</title><style>:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--tx:#e6edf3;--mu:#8b949e;--ac:#58a6ff}
+<meta name="referrer" content="origin-when-cross-origin"><meta name="color-scheme" content="dark"><title>Ireland EV Charging Prices</title><style>:root{--bg:#0d1117;--card:#161b22;--line:#30363d;--tx:#e6edf3;--mu:#8b949e;--ac:#58a6ff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 -apple-system,Roboto,"Segoe UI",sans-serif}
 header{padding:10px 14px 8px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(13,17,23,.97);z-index:1000}
 h1{margin:0;font-size:1.2rem}main{max-width:1600px;margin:0 auto;padding:10px}a{color:var(--ac)}code{font-size:.8em;background:#21262d;padding:1px 4px;border-radius:4px}
@@ -708,7 +708,7 @@ svg.leaflet-image-layer.leaflet-interactive path {
 </style></head><body>
 <header><h1>🇮🇪 Ireland – EV charging prices</h1><div class="mu" style="color:#8b949e;font-size:.8rem">Standalone Irish version of the Swiss charging-price map (EV_mobility_V2.html is unchanged)</div></header>
 <main><div class="pm">
-<div class="upd">🇮🇪 Ireland · OSM snapshot <b>Thu 15 Oct 2026, 18:10 Berlin</b> · Open Charge Map export <b>2026-04-22</b> · prices checked <b>15 Oct 2026</b> · 2,184 sites (Republic) · 1,188 with a price (54.4%) · built Thu 15 Oct 2026, 18:33 Berlin</div>
+<div class="upd">🇮🇪 Ireland · OSM snapshot <b>Thu 15 Oct 2026, 18:10 Berlin</b> · Open Charge Map export <b>2026-04-22</b> · prices checked <b>15 Oct 2026</b> · 2,184 sites (Republic) · 1,188 with a price (54.4%) · built Thu 15 Oct 2026, 18:44 Berlin</div>
 <div class="wrap"><section>
 <div class="ctl"><div class="seg" id="pmMode"><button class="on" data-m="all">All</button><button data-m="ac">AC</button><button data-m="dc">DC / fast</button></div>
 <select id="pmOp"><option value="-1">All operators</option></select></div>
@@ -754,12 +754,14 @@ const fmt=(v,d=2)=>v==null?'–':v.toFixed(d);
 function kwok(p){if(!F.kw)return true; if(!p)return F.unk; return p>=F.kw-0.05}
 const map=L.map('pmMap',{preferCanvas:true,zoomControl:true,zoomSnap:0.25}); window.priceMap=map;
 const OSMA='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-const ATT=OSMA+' &copy; <a href="https://carto.com/attributions">CARTO</a> · Stations: OpenStreetMap + <a href="https://openchargemap.org">Open Charge Map</a> (CC BY 4.0) · Prices: operator websites';
-const cartoOpt={subdomains:'abcd',maxZoom:20,attribution:ATT};
-const dark=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',cartoOpt).addTo(map);
-const voy=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',cartoOpt);
-const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:OSMA+' (standard layer; may be blocked when opened from file://)'});
-L.control.layers({'CARTO dark':dark,'CARTO Voyager (light)':voy,'OSM standard (optional)':osm},null,{position:'topright'}).addTo(map);
+const ESA='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, HERE, OpenStreetMap contributors · Stations: OpenStreetMap + <a href="https://openchargemap.org">Open Charge Map</a> (CC BY 4.0) · Prices: operator websites';
+const ESB='https://server.arcgisonline.com/ArcGIS/rest/services/';
+const dark=L.tileLayer(ESB+'Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:ESA}).addTo(map);
+const light=L.tileLayer(ESB+'Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{maxZoom:16,attribution:ESA});
+const street=L.tileLayer(ESB+'World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:ESA});
+const osmde=L.tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png',{maxZoom:18,attribution:OSMA+' (tiles: openstreetmap.de)'});
+const topo=L.tileLayer('https://tile.opentopomap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:OSMA+', SRTM | &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)'});
+L.control.layers({'Esri Dark Gray (default)':dark,'Esri Light Gray':light,'Esri Streets':street,'OSM Germany':osmde,'OpenTopoMap':topo},null,{position:'topright'}).addTo(map);
 map.fitBounds([[51.35,-10.5],[55.4,-5.45]]);
 const layer=L.layerGroup().addTo(map);
 function q(a,p){if(!a.length)return null;const s=[...a].sort((x,y)=>x-y);const i=(s.length-1)*p,lo=Math.floor(i),hi=Math.ceil(i);return s[lo]+(s[hi]-s[lo])*(i-lo)}
